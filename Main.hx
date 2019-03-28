@@ -155,6 +155,7 @@ class Main {
             }
 
             if(answer == 'generate random'){
+                speak('Heres your pile of random dicts.');
                 Sys.println(generate_random_json_blobs());
             }
 
