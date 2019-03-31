@@ -159,6 +159,32 @@ class Main {
                 Sys.println(generate_random_json_blobs());
             }
 
+            if(answer == 'thank you'){
+                speak('No worries.');
+            }
+            if(answer == 'muscles'){
+                var muscles = read('muscles.txt').split('\n');
+                
+                var columns = [
+                    // 'Origin',
+                    // 'Insertion',
+                    'Main Action',
+                    'Thenar or Hyperthenar?'
+                ];
+
+                var res = [];
+
+                for(column in columns){
+                    for(muscle in muscles){
+                        res.push('$column: $muscle, $column: ');
+                    }
+                }
+                
+                speak("Here is your filled out template. :)");
+                Sys.println(res.join('\n'));
+            
+            }
+
             answer = prompt();
 
         }
