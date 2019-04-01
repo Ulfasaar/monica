@@ -1,0 +1,49 @@
+
+{
+    "tables": [
+        {
+            "columns": [
+                "process text",
+                "processing_type text"
+            ],
+            "table": "distribution",
+            "schema": "asset",
+            "columns_horizontal": [
+                "mining_techniques", "mining_type"
+            ],
+            "table_original": "asset.metadata",
+            "table_original_id_column": "asset_id",
+            "granular_column": "mining_techniques",
+            "new_granular_column": "process"
+        },
+        {
+            "columns": [
+                "name text",
+                "group text"
+            ],
+            "table": "hashing_algorithm",
+            "schema": "asset",
+            "columns_horizontal": [
+                "hashing_algorithm", "hashing_algorithm_group"
+            ],
+            "table_original": "asset.metadata",
+            "table_original_id_column": "asset_id",
+            "granular_column": "hashing_algorithm",
+            "new_granular_column": "name"
+        },
+        {
+            "columns": [
+                "name text"
+            ],
+            "table": "scripting_language",
+            "schema": "asset",
+            "columns_horizontal": [
+                "scripting_language"
+            ],
+            "table_original": "asset.metadata",
+            "table_original_id_column": "asset_id",
+            "granular_column": "scripting_language",
+            "new_granular_column": "name"
+        }
+    ]
+}

@@ -1,3 +1,23 @@
+
+
+// // consider doing a golang like thing for join tables
+typedef Table = {
+    var columns: Array<String>;
+    var columns_horizontal: Array<String>;
+    var table: String;
+    var table_original: String;
+    var schema: String;
+    var table_original_id_column: String;
+    var granular_column: String;
+    var new_granular_column: String;
+}
+
+
+typedef TableData = {
+    var tables: Array<Table>;
+}
+
+
 class Main {
 
     // static function chat(){
@@ -49,6 +69,11 @@ class Main {
 
         // todo handle other file types eg: docx etc
         return sys.io.File.getContent(path);
+    }
+
+
+    static function write(path: String, data: String){
+        sys.io.File.saveContent(path, data);
     }
 
     static function remember(content: String){
@@ -146,7 +171,8 @@ class Main {
             // multiple os es
 
             if(answer.substring(0,4) == 'open'){
-
+                
+                // ! bug: Currently for rambox if it isnt already open monica freezes after it is opened
                 var path = '/home/ryan/apps/' + answer.substr(5) + '.AppImage';
                 speak('opening ' + path);
 
@@ -184,6 +210,71 @@ class Main {
                 Sys.println(res.join('\n'));
             
             }
+
+            if(answer == 'join sql'){
+                // in future just record what tables are being joined?
+                var tables_string = read('join_tables/tables.json');
+                var template = read('join_tables/create_joins_template.sql');
+                var data: TableData = haxe.Json.parse(tables_string);
+                
+                // var res = [];
+
+                //todo replace with Haxes template system??
+
+                var res = "";
+
+                for(table in data.tables){
+                    var filled = StringTools.replace(template, "${columns}", table.columns.join(',\n\t'));
+
+                    // make this dynamic somehow at some point
+
+                    filled = StringTools.replace(filled, "${table}", table.table);
+                    filled = StringTools.replace(filled, "${table_schema}", table.schema);
+                    filled = StringTools.replace(filled, "${table_original}", table.table_original);
+                    filled = StringTools.replace(filled, "${table_original_id_column}", table.table_original_id_column);
+                    filled = StringTools.replace(filled, "${granular_column}", table.granular_column);
+                    filled = StringTools.replace(filled, "${new_granular_column}", table.new_granular_column);
+                    filled = StringTools.replace(filled, "${columns_horizontal}", table.columns_horizontal.join(', '));
+
+
+                    var columns_no_types = [];
+                    for(column in table.columns){
+                        columns_no_types.push(column.split(" ")[0]);
+                    }
+
+                    filled = StringTools.replace(filled, "${columns_no_types}", columns_no_types.join(', '));
+
+                    var drop_columns = [];
+                    for(column in table.columns_horizontal){
+                        drop_columns.push('DROP COLUMN $column');
+                    }
+
+                    filled = StringTools.replace(filled, "${drop_columns}", drop_columns.join(',\n') + ';');
+    
+                    res = res + "\n" + filled;
+                    
+                }
+
+                speak("Created SQL queries :)");
+                write('join_tables/output.sql', res);
+
+
+            }
+
+                // "columns": [
+            //     "process text",
+            //     "processing_type text"
+            // ],
+            // "table": "distribution",
+            // "table_schema": "asset",
+            // "columns_horizontal": [
+            //     "mining_techniques", "mining_type"
+            // ],
+            // "table_original": "asset.metadata",
+            // "table_original_id_column": "asset_id",
+            // "granular_column": "mining_techniques",
+            // "new_granular_column": "process"
+            // }
 
             answer = prompt();
 
