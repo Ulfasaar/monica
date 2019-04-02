@@ -192,10 +192,12 @@ class Main {
                 var muscles = read('muscles.txt').split('\n');
                 
                 var columns = [
-                    // 'Origin',
-                    // 'Insertion',
+                    'Origin',
+                    'Insertion',
+                    'Innervation',
                     'Main Action',
-                    'Thenar or Hyperthenar?'
+                    // 'Rotator cuff muscle yes or no?'
+                    // 'Thenar or Hyperthenar?'
                 ];
 
                 var res = [];
@@ -256,7 +258,7 @@ class Main {
                 }
 
                 speak("Created SQL queries :)");
-                write('join_tables/output.sql', res);
+                write('join_tables/output.sql', "-- Start of join tables \n\n" + res);
 
 
             }

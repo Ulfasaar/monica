@@ -9,17 +9,17 @@
             "table": "distribution",
             "schema": "asset",
             "columns_horizontal": [
-                "mining_techniques", "mining_type"
+                "mining", "mining_type"
             ],
             "table_original": "asset.metadata",
             "table_original_id_column": "asset_id",
-            "granular_column": "mining_techniques",
+            "granular_column": "mining",
             "new_granular_column": "process"
         },
         {
             "columns": [
-                "name text",
-                "group text"
+                "\"name\" text",
+                "\"group\" text"
             ],
             "table": "hashing_algorithm",
             "schema": "asset",
@@ -29,11 +29,11 @@
             "table_original": "asset.metadata",
             "table_original_id_column": "asset_id",
             "granular_column": "hashing_algorithm",
-            "new_granular_column": "name"
+            "new_granular_column": "\"name\""
         },
         {
             "columns": [
-                "name text"
+                "\"name\" text"
             ],
             "table": "scripting_language",
             "schema": "asset",
@@ -43,7 +43,7 @@
             "table_original": "asset.metadata",
             "table_original_id_column": "asset_id",
             "granular_column": "scripting_language",
-            "new_granular_column": "name"
+            "new_granular_column": "\"name\""
         }
     ]
 }
