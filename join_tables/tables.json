@@ -18,6 +18,20 @@
         },
         {
             "columns": [
+                "\"name\" text"
+            ],
+            "table": "scripting_language",
+            "schema": "asset",
+            "columns_horizontal": [
+                "scripting_language"
+            ],
+            "table_original": "asset.metadata",
+            "table_original_id_column": "asset_id",
+            "granular_column": "scripting_language",
+            "new_granular_column": "\"name\""
+        },
+        {
+            "columns": [
                 "\"name\" text",
                 "\"group\" text"
             ],
@@ -29,20 +43,6 @@
             "table_original": "asset.metadata",
             "table_original_id_column": "asset_id",
             "granular_column": "hashing_algorithm",
-            "new_granular_column": "\"name\""
-        },
-        {
-            "columns": [
-                "\"name\" text"
-            ],
-            "table": "scripting_language",
-            "schema": "asset",
-            "columns_horizontal": [
-                "scripting_language"
-            ],
-            "table_original": "asset.metadata",
-            "table_original_id_column": "asset_id",
-            "granular_column": "scripting_language",
             "new_granular_column": "\"name\""
         }
     ]

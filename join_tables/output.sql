@@ -38,6 +38,41 @@ ALTER TABLE asset.metadata
 DROP COLUMN mining,
 DROP COLUMN mining_type;
 
+CREATE TABLE asset.scripting_language(
+	id UUID PRIMARY KEY DEFAULT uuid_generate_v1(),
+	"name" text
+);
+
+-- create join table
+CREATE TABLE asset.metadata_scripting_language(
+	id UUID PRIMARY KEY DEFAULT uuid_generate_v1(),
+	asset_id UUID REFERENCES asset.metadata(asset_id) NOT NULL,
+	scripting_language_id UUID REFERENCES asset.scripting_language(id) NOT NULL
+);
+
+--test the select first
+select distinct scripting_language
+FROM asset.metadata;
+
+-- insert the distinct values being broken off
+INSERT into asset.scripting_language ("name")
+select distinct scripting_language
+FROM asset.metadata;
+
+
+-- insert mapping rows into join table
+INSERT INTO asset.metadata_scripting_language(asset_id, scripting_language_id)
+SELECT distinct asset.metadata.asset_id, asset.scripting_language.id
+FROM asset.metadata JOIN asset.scripting_language on asset.metadata.scripting_language = asset.scripting_language."name";
+
+
+-- check table values
+select * from asset.scripting_language;
+
+-- drop off split off columns from original
+ALTER TABLE asset.metadata
+DROP COLUMN scripting_language;
+
 CREATE TABLE asset.hashing_algorithm(
 	id UUID PRIMARY KEY DEFAULT uuid_generate_v1(),
 	"name" text,
@@ -74,38 +109,3 @@ select * from asset.hashing_algorithm;
 ALTER TABLE asset.metadata
 DROP COLUMN hashing_algorithm,
 DROP COLUMN hashing_algorithm_group;
-
-CREATE TABLE asset.scripting_language(
-	id UUID PRIMARY KEY DEFAULT uuid_generate_v1(),
-	"name" text
-);
-
--- create join table
-CREATE TABLE asset.metadata_scripting_language(
-	id UUID PRIMARY KEY DEFAULT uuid_generate_v1(),
-	asset_id UUID REFERENCES asset.metadata(asset_id) NOT NULL,
-	scripting_language_id UUID REFERENCES asset.scripting_language(id) NOT NULL
-);
-
---test the select first
-select distinct scripting_language
-FROM asset.metadata;
-
--- insert the distinct values being broken off
-INSERT into asset.scripting_language ("name")
-select distinct scripting_language
-FROM asset.metadata;
-
-
--- insert mapping rows into join table
-INSERT INTO asset.metadata_scripting_language(asset_id, scripting_language_id)
-SELECT distinct asset.metadata.asset_id, asset.scripting_language.id
-FROM asset.metadata JOIN asset.scripting_language on asset.metadata.scripting_language = asset.scripting_language."name";
-
-
--- check table values
-select * from asset.scripting_language;
-
--- drop off split off columns from original
-ALTER TABLE asset.metadata
-DROP COLUMN scripting_language;
