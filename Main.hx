@@ -189,27 +189,42 @@ class Main {
                 speak('No worries.');
             }
             if(answer == 'muscles'){
-                var muscles = read('muscles.txt').split('\n');
-                
+                var sections = read('muscles.txt').split('\n\nOrigins');
+                var muscles = sections[0].split('\n');
+                var sections2 = sections[1].split('\nInsertions');
+                var origins = sections2[0].split('\n').slice(1);
+                var sections3 = sections2[1].split('\nInnervation');
+                var insertions = sections3[0].split('\n').slice(1);
+                var section4 = sections3[1].split('\nAction');
+                var innervations = section4[0].split('\n').slice(1);
+                var actions = section4[1].split('\n');
+
+                // var sections3 = sections
+
                 var columns = [
-                    'Origin',
-                    'Insertion',
-                    'Innervation',
-                    'Main Action',
+                    'Origin'=> origins,
+                    'Insertion'=> insertions,
+                    'Innervation'=> innervations,
+                    'Main Action'=> actions
                     // 'Rotator cuff muscle yes or no?'
                     // 'Thenar or Hyperthenar?'
                 ];
 
                 var res = [];
 
-                for(column in columns){
+                for(column in columns.keys()){
+
+                    var i = 0;
                     for(muscle in muscles){
-                        res.push('$column: $muscle, $column: ');
+                        var value = columns[column][i];
+                        res.push('$column: $muscle, $column: $value');
+                        i++;
                     }
                 }
                 
                 speak("Here is your filled out template. :)");
-                Sys.println(res.join('\n'));
+                write('output.txt', res.join('\n'));
+                // Sys.println(res.join('\n'));
             
             }
 
