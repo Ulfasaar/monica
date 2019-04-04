@@ -1,0 +1,1 @@
+haxe -main Tests --interp

@@ -14,4 +14,8 @@ class Libs{
         return haxe.Json.parse(read(path));
     }
 
+    public static function contains(to_search: String, value: String): Bool{
+        return to_search.indexOf(to_search) != -1;
+    }
+
 }

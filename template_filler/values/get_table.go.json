@@ -12,7 +12,10 @@
                     "id",
                     "classification",
                     "sub_classification"
-                ]
+                ],
+                "alterations": {
+                    "prefix": "&row."
+                }
             } 
         }
     ]
