@@ -1,6 +1,3 @@
-
-
-// // consider doing a golang like thing for join tables
 typedef Table = {
     var columns: Array<String>;
     var columns_horizontal: Array<String>;
@@ -20,67 +17,19 @@ typedef TableData = {
 
 class Main {
 
-    // static function chat(){
-    //     var question_response_mapping = {};
-    //     // maps questions to responses for fun chats eg: how are you etc
-    // }
-
-    // static function query_db(){
-    //     // query db multiple times with one connection
-    //     // use config files to store the connection details
-    //     // command would be query blah connection
-    //     // use the word close to close the connection to return to the main prompt
-    //     // append the db connection prompt to show still connected
-    // }
-
-    // static function fill_template(){
-    //     // read a JSON config file 
-    //     // read in a template file 
-    //     // fill the values 
-    //     // spit out the result
-    // }
-
-    // static function hide(){
-    //     // encrypt the thing using existing pkey or create new ones each time?
-    //     // used for managing secrets
-    // }
-
-    // todo add stuff for managing shared libraries and meta repos
-
-    // todo unit tests!!!! BDD etc
-    // to do integration tests decouple from command inputs
-
-    // static function show(){
-    //     // unencrypt
-    // }
-
-    // static function find(){
-    //     // finds text in a folder using silver searcher or whatever
-    //     // if it finds something and its encrypted and it has the primary key decrypt it
-    // }
-
+   
     static function generate_random_json_blobs(){
         // generates a n list of json blobs with different keys
         // configurable fields num fields etc
         return "{'cat': 'dog', 'pet': 'true'}, {'cat': 'mouse', 'pet': 'true'},  {'cat': 'moose', 'pet': 'false'}";
     }
 
-    static function read(path: String): String{
-
-        // todo handle other file types eg: docx etc
-        return sys.io.File.getContent(path);
-    }
-
-
-    static function write(path: String, data: String){
-        sys.io.File.saveContent(path, data);
-    }
-
+   
     static function remember(content: String){
 
         // ! Bug it should store stuff with keys so that it can remember multiple things
         // only writes to memory once for now
-        var memory = read('memory.txt');
+        var memory = Libs.read('memory.txt');
 
         if(memory.indexOf(content) == -1){
             var output = sys.io.File.append('memory.txt', false);
@@ -103,7 +52,7 @@ class Main {
 
     static function print_header(){
 
-        var content:String = read('banner.txt');
+        var content:String = Libs.read('banner.txt');
 
         // keep this way for now so that when she talks she doesn't blurt out special characters
         Sys.println(content);
@@ -111,19 +60,6 @@ class Main {
 
     static function speak(message: String){
         Sys.println(message);
-
-
-        // todo on setup install espeak find a way to make it work for windows etc
-        // todo fix speech so that it doesn't talk over itself and actually says good bye
-        // todo fix it so that it doesn't print trash to terminal
-        // todo make the voice sound nicer and less like a low quality Steven Hawking, preferrably female voice
-
-        // to fix talking over self just lock execution somehow until first speech done
-        // maybe process has a way to handle it????
-
-        // espeak-ng provides more osses so might be a good cross platform way still sounds really robotic though
-        // new sys.io.Process('espeak "$message"');
-        // FREE TTS isn't much better not sure about Googles option maybe use Google if there is internet else fall back to local
     }
 
     static function run(command: String){
@@ -138,7 +74,7 @@ class Main {
 
         print_header();
 
-        var memory = read('memory.txt');
+        var memory = Libs.read('memory.txt');
 
         if(memory == ''){
             speak("Hello I am Monica your personal digital assistant!\n");
@@ -152,23 +88,6 @@ class Main {
 
         while(answer != 'bye'){
 
-            // todo make the app folder configurable
-
-
-            // todo setup autocomplete for commands and argument values eg app image names
-
-            // todo find a way to create the memory file on startup if not present
-
-            // todo path expansion
-
-            // todo environment setup based on config and versions
-
-            // todo make a Github need to decide if public or private might make public to show off
-
-
-
-            // support pip packages global npm packages maybe profiles common tools etc
-            // multiple os es
 
             if(answer.substring(0,4) == 'open'){
                 
@@ -180,16 +99,28 @@ class Main {
                 run(path);
             }
 
+            if(answer == 'fill templates'){
+                // var file_name = answer.substring(14);
+
+                // todo change to use for loop over filenames in folder 
+                // todo change so that output file doesn't have to already exist
+
+                var template = new Template('get_table.go');
+
+                speak('Filled in your templates :)');
+                // Sys.println('\n' + template.get_filled());
+            }
+
             if(answer == 'generate random'){
                 speak('Heres your pile of random dicts.');
                 Sys.println(generate_random_json_blobs());
             }
 
-            if(answer == 'thank you'){
+            if(answer == 'thank you' || answer == 'thanks'){
                 speak('No worries.');
             }
             if(answer == 'muscles'){
-                var sections = read('muscles.txt').split('\n\nOrigins');
+                var sections = Libs.read('muscles.txt').split('\n\nOrigins');
                 var muscles = sections[0].split('\n');
                 var sections2 = sections[1].split('\nInsertions');
                 var origins = sections2[0].split('\n').slice(1);
@@ -223,15 +154,15 @@ class Main {
                 }
                 
                 speak("Here is your filled out template. :)");
-                write('output.txt', res.join('\n'));
+                Libs.write('output.txt', res.join('\n'));
                 // Sys.println(res.join('\n'));
             
             }
 
             if(answer == 'join sql'){
                 // in future just record what tables are being joined?
-                var tables_string = read('join_tables/tables.json');
-                var template = read('join_tables/create_joins_template.sql');
+                var tables_string = Libs.read('join_tables/tables.json');
+                var template = Libs.read('join_tables/create_joins_template.sql');
                 var data: TableData = haxe.Json.parse(tables_string);
                 
                 // var res = [];
@@ -273,25 +204,11 @@ class Main {
                 }
 
                 speak("Created SQL queries :)");
-                write('join_tables/output.sql', "-- Start of join tables \n\n" + res);
+                Libs.write('join_tables/output.sql', "-- Start of join tables \n\n" + res);
 
 
             }
 
-                // "columns": [
-            //     "process text",
-            //     "processing_type text"
-            // ],
-            // "table": "distribution",
-            // "table_schema": "asset",
-            // "columns_horizontal": [
-            //     "mining_techniques", "mining_type"
-            // ],
-            // "table_original": "asset.metadata",
-            // "table_original_id_column": "asset_id",
-            // "granular_column": "mining_techniques",
-            // "new_granular_column": "process"
-            // }
 
             answer = prompt();
 
