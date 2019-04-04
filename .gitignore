@@ -3,4 +3,5 @@ muscles.txt
 back_muscles
 ocrd_tables
 cleaned_ocr
-output
+output.txt
+output_new.txt

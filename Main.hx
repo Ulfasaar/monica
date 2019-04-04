@@ -129,7 +129,7 @@ class Main {
                 var insertions = sections3[0].split('\n').slice(1);
                 var section4 = sections3[1].split('\nAction');
                 var innervations = section4[0].split('\n').slice(1);
-                var actions = section4[1].split('\n');
+                var actions = section4[1].split('\n').slice(1);
 
                 // var sections3 = sections
 
