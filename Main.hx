@@ -17,7 +17,6 @@ typedef TableData = {
 
 class Main {
 
-   
     static function generate_random_json_blobs(){
         // generates a n list of json blobs with different keys
         // configurable fields num fields etc
@@ -108,6 +107,8 @@ class Main {
                 var template = new Template('get_table.go');
 
                 speak('Filled in your templates :)');
+                template.get_filled();
+                
                 // Sys.println('\n' + template.get_filled());
             }
 

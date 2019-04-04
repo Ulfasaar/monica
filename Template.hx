@@ -17,10 +17,14 @@ class Template{
         this.values = Libs.get_json_file('$folder/values/$file_name.json');
         this.file_name = file_name;
 
+
+        // make it like cloud formation specifying type value and stuff?
+        // if type is list then a seperator should be specified????
+
     }
     
     public function fill_val(template: String, field: String, val: Any): String{
-        return StringTools.replace(this.template, "${" + field + "}", val);
+        return StringTools.replace(template, "${" + field + "}", val);
     }
 
     // this is the actual funct

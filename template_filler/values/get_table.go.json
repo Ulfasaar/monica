@@ -1,10 +1,19 @@
 {
     "values": [
         {
-            
-        },
-        {
-            
+            "struct_name": {
+                "type": "string",
+                "value": "Classification"
+            },
+            "columns":{
+                "type": "list",
+                "seperator": ", ",
+                "values": [
+                    "id",
+                    "classification",
+                    "sub_classification"
+                ]
+            } 
         }
     ]
 }

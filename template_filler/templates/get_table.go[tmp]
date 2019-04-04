@@ -1,4 +1,4 @@
-func (db DB) Get${table_name} ([]${struct_name}){
+func (db DB) Get${struct_name} ([]${struct_name}){
     rows, err := db.Connection.Query("SELECT id,id_currency,name,currency_url,supply_url,active FROM ${schema}.${table_name}")
 
 	if err != nil {
