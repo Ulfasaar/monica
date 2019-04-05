@@ -1,5 +1,9 @@
+
+typedef ValuesValues = Array<Map<String, Map<String, Dynamic>>>;
+
 typedef Values = {
-    var values: Array<Dynamic>;
+    // var values: Array<Dynamic>;
+    var values: ValuesValues;
 }
 
 typedef ListValue = {
@@ -37,10 +41,6 @@ class Template{
         this.values = Libs.get_json_file('$folder/values/$file_name.json');
         this.file_name = file_name;
 
-
-        // make it like cloud formation specifying type value and stuff?
-        // if type is list then a seperator should be specified????
-
     }
     
     public function fill_val(template: String, field: String, val: Any): String{
@@ -48,53 +48,68 @@ class Template{
     }
 
     // this is the actual funct
-    public function _get_filled(template: String, values: Array<Dynamic> ): String{
+    public function _get_filled(template: String, values: ValuesValues ): String{
 
         var res = [];
 
            // fill the values in and return filled out template
-        for(template_values in this.values.values){
+
+        // for each result that will be outputted
+        for(template_values in values){
             var unfilled = new String(template);
 
-            for(field in Reflect.fields(template_values)){
+            // for each field in the json blob
+            for(field in template_values.keys()){
                 
-                var val_type = template_values.get(field).get("type");
+                var field_value = template_values.get(field);
+
+                Sys.println(field_value);
+                var val_type = field_value["type"];
 
                 var field_res: Dynamic;
                 var field_altered: Dynamic = null;
 
                 if(val_type == 'list'){
-                    var val: ListValue = template_values.get(field);
+                    var val = template_values[field];
+
+                    var parsed_vals: Array<String>= val.get("values");
+                    var seperator: String = val.get("seperator");
 
                     // if the alterations are provided and it is requested in the template process it
-                    if(val.alterations != null && Libs.contains(template, '$field[altered]')){
+                    if(val.get("alterations") != null && Libs.contains(template, '$field[altered]')){
 
                         var altered_items: Array<String>= [];
-                        for(item in val.values){
+
+                        for(item in parsed_vals){
                             var altered_text = '';
-                            if(val.alterations.prefix != null){
-                                altered_text = val.alterations.prefix;
+
+                            var prefix: String = val.get("alterations").get("prefix");
+
+                            if( prefix != null){
+                                altered_text = prefix;
                             }
 
                             altered_text = altered_text + item;
 
-                            if(val.alterations.suffix != null){
-                                altered_text = altered_text + val.alterations.suffix;
+                            var suffix: String = val.get("alterations").get("suffix");
+
+                            if(suffix != null){
+                                altered_text = altered_text + suffix;
                             }
 
                             altered_items.push(altered_text);
                         }
 
-                        field_altered = altered_items.join(val.seperator);
+                        field_altered = altered_items.join(seperator);
                         
                     }
                     
-                    field_res = val.values.join(val.seperator);
+                    field_res = parsed_vals.join(seperator);
 
                 }
                 else if(val_type == 'string'){
-                    var val: StringValue = template_values.get(field);
-                    field_res = val.value;
+                    var val = template_values.get(field);
+                    field_res = val.get("value");
                 }
                 else{
                     field_res = template_values.get(field).get("value");

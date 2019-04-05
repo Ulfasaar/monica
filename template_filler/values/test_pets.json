@@ -1,0 +1,48 @@
+{
+    "values": [
+        {
+            "object_type": {
+                "value": "pets",
+                "type": "string"
+            },
+            "objects":{
+                "type": "list",
+                "values": [
+                    "Thom",
+                    "Jerry",
+                    "Pat",
+                    "Thom"
+                ],
+                "alterations":{
+                    "prefix": "Neo-"
+                }
+            }
+        }
+    ]
+}
+
+// the easier to strong type version????????
+
+
+// move to this instead????? maybe just write this shit in Python
+
+
+[
+
+    {
+        "strings":[
+            {
+                "name": "",
+                "value": ""
+            },
+        ],
+        "lists":[
+            {
+                "name": "",
+                "values": [
+
+                ]
+            }
+        ]
+    }
+]
