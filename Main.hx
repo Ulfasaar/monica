@@ -98,19 +98,19 @@ class Main {
                 run(path);
             }
 
-            if(answer == 'fill templates'){
-                // var file_name = answer.substring(14);
+            // if(answer == 'fill templates'){
+            //     // var file_name = answer.substring(14);
 
-                // todo change to use for loop over filenames in folder 
-                // todo change so that output file doesn't have to already exist
+            //     // todo change to use for loop over filenames in folder 
+            //     // todo change so that output file doesn't have to already exist
 
-                var template = new Template('get_table.go');
+            //     var template = new Template('get_table.go');
 
-                speak('Filled in your templates :)');
-                template.get_filled();
+            //     speak('Filled in your templates :)');
+            //     template.get_filled();
                 
-                // Sys.println('\n' + template.get_filled());
-            }
+            //     // Sys.println('\n' + template.get_filled());
+            // }
 
             if(answer == 'generate random'){
                 speak('Heres your pile of random dicts.');
